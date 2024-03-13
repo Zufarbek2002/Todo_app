@@ -52,7 +52,7 @@ const App = () => {
             </h2>
             <p>{data.completed ? "✅" : "❌"}</p>
           </div>
-          <div className="card-footer">
+          <div className="card-footer d-flex gap-3">
             <button
               onClick={() =>
                 handleComplete({
@@ -61,20 +61,23 @@ const App = () => {
                   completed: Boolean(`${data.completed}`),
                 })
               }
+              className="btn btn-success"
             >
-              Complete
+              {
+                data.completed ? 'Uncompleted' : 'Completed'
+              }
             </button>
-            <button onClick={() => handleDelete(data.id)}>Delete</button>
-            <button>Edit</button>
+            <button onClick={() => handleDelete(data.id)} className="btn btn-danger">Delete</button>
+            <button className="btn btn-primary">Edit</button>
           </div>
         </div>
       ))}
       <div className="btn_box d-flex justify-content-center gap-3 align-items-center">
-        <button onClick={handlePrev} disabled={page == 1}>
+        <button onClick={handlePrev} disabled={page == 1} className="btn btn-outline-dark">
           Prev
         </button>
         <h2>{page}</h2>
-        <button onClick={handleNext} disabled={page == 20}>
+        <button onClick={handleNext} disabled={page == 20} className="btn btn-outline-dark">
           Next
         </button>
       </div>
