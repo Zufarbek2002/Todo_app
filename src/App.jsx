@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 const App = () => {
   const [dataList, setDataList] = useState([]);
-  const [page, setPage] = useState(2);
+  const [page, setPage] = useState(1);
   const [inputValue, setInputValue] = useState('')
   const [items, setItems] = useState(0)
 
@@ -14,7 +14,6 @@ const App = () => {
     const data = res.data;
     setDataList(data.data);
     setItems(data.items)
-    console.log(items);
   };
   const handlePrev = () => {
     setPage(page - 1);
