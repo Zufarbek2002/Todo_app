@@ -3,14 +3,18 @@ import { useEffect, useState } from "react";
 
 const App = () => {
   const [dataList, setDataList] = useState([]);
-  const [page, setPage] = useState(1);
-  // const [dataId, setDataId] = useState(0)
+  const [page, setPage] = useState(2);
+  const [inputValue, setInputValue] = useState('')
+  const [items, setItems] = useState(0)
+
   const getTodos = async () => {
     const res = await axios(
       `http://localhost:3000/todos?_page=${page}&_per_page=10`
     );
     const data = res.data;
     setDataList(data.data);
+    setItems(data.items)
+    console.log(items);
   };
   const handlePrev = () => {
     setPage(page - 1);
@@ -33,11 +37,29 @@ const App = () => {
     getTodos();
   };
 
+  const handleForm = async(e) => {
+    e.preventDefault()
+    console.log(e);
+    await axios.post(`http://localhost:3000/todos`, {
+      title: `${inputValue}`,
+      completed: false,
+    });
+
+    getTodos();
+  }
+  const handleInput = (e) => {
+    setInputValue(e.target.value)
+  }
+
   useEffect(() => {
     getTodos();
   }, [page]);
   return (
     <div className="container mt-4">
+      <form className="form-control d-flex gap-5 mb-5 p-3">
+        <input type="text" placeholder="Added task..." className="form-control" onChange={handleInput}/>
+        <button type="submit" onClick={handleForm} className="btn btn-outline-success w-25">Add</button>
+      </form>
       {dataList.map((data) => (
         <div key={data.id} className="card mb-4">
           <div className="card-body d-flex justify-content-between">
@@ -77,7 +99,7 @@ const App = () => {
           Prev
         </button>
         <h2>{page}</h2>
-        <button onClick={handleNext} disabled={page == 20} className="btn btn-outline-dark">
+        <button onClick={handleNext} disabled={items <= page * 10} className="btn btn-outline-dark">
           Next
         </button>
       </div>
