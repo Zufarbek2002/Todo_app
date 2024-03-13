@@ -39,11 +39,10 @@ const App = () => {
 
   const handleForm = async(e) => {
     e.preventDefault()
-    console.log(e);
-    await axios.post(`http://localhost:3000/todos`, {
+    inputValue && (await axios.post(`http://localhost:3000/todos`, {
       title: `${inputValue}`,
       completed: false,
-    });
+    }))
 
     getTodos();
   }
